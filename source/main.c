@@ -15,9 +15,50 @@
 
 enum Inc_States { Inc_init, Inc_Idle, Inc_Debounce} Inc_State;
 
-void Tick_Inc(unsigned char temp_val) {
+unsigned char check_sum(unsigned char input_val) {
 
-	unsigned char sum = PORTC; 
+	unsigned char light_value = 0x00;
+
+	if (input_val == 0x00) {
+		light_value = 0x11;
+
+	}
+	else if (input_val == 0x01) {
+		light_value = 0x0A;
+	}
+	else if (input_val == 0x02) {
+		light_value = 0x04;
+	}
+	else if (input_val == 0x03) {
+		light_value = 0x04;
+	}
+	else if (input_val == 0x04) {
+		light_value = 0x0A;
+	}
+	else if (input_val == 0x05) {
+		light_value = 0x11;
+	}
+	else if (input_val == 0x06) {
+		light_value = 0x10;
+	}
+	else if (input_val == 0x07) {
+		light_value = 0x18;
+	}
+	else if (input_val == 0x08) {
+		light_value = 0x1C;
+	}
+	else if (input_val == 0x09) {
+		light_value = 0x1E;
+	}
+	else if (input_val == 0x0A) {
+		light_value = 0x1F;
+	}
+
+	return light_value;
+}
+
+void Tick_Inc(unsigned char temp_val) {
+	static unsigned char sum;
 	unsigned char A0 = temp_val & 0x01;         // Get 0th bit
 	unsigned char A1 = (temp_val & 0x02) >> 1; // Get 1st bit and right shift
 	switch(Inc_State) {     		  // Transitions, changed to Mealy Machine
@@ -32,16 +73,16 @@ void Tick_Inc(unsigned char temp_val) {
 			}
 			else if ((A0 == 0x00) && (A1 == 0x01)) { //Add
 				Inc_State = Inc_Debounce;
-				if (sum != 0x09) {
-					sum++;
-					PORTC = sum;
+				if (sum != 0x0A) {
+					sum++;	
+					PORTC = check_sum(sum);
 				}
 			}
 			else if ((A0 == 0x01) && (A1 == 0x00)) { //Subtract
 				Inc_State = Inc_Debounce;
 				if (sum != 0x00) {
 					sum--;
-					PORTC = sum;
+					PORTC = check_sum(sum);
 				}
 			}
 			
@@ -78,6 +119,7 @@ int main(void) {
     /* Insert your solution below */
 	Inc_State = Inc_init;
 	unsigned char temp_val = PINA;
+
 	PORTB = 0x07;
 
     while (1) {

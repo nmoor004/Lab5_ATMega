@@ -1,21 +1,7 @@
-Breakpoint 1 at 0xe6: file source/main.c, line 19.
+Breakpoint 1 at 0x1ea: file source/main.c, line 86.
 Note: automatically using hardware breakpoints for read-only addresses.
-Continuing.
-malformed linespec error: unexpected colon
-Note: breakpoint 1 also set at pc 0xe6.
-Breakpoint 2 at 0xe6: file source/main.c, line 20.
-PORTB addr0x800025:	0x0f
-Continuing.
+======================================================
+Running all tests..."
 
-Breakpoint 2, main () at source/main.c:20
-20		PORTB = 0x0F;
-Continuing.
-
-Breakpoint 2, main () at source/main.c:20
-20		PORTB = 0x0F;
-A debugging session is active.
-
-	Inferior 1 [Remote target] will be detached.
-
-Quit anyway? (y or n) Detaching from program: /home/csmajs/nmoor004/Lab5_ATMega/build/objects/main.elf, Remote target
+"PINA: 0x02 => PORTB: 0x06"..."PINA: 0x01 => PORTB: 0x07"..."PINA: 0x03 => PORTB: 0x00"...======================================================
 Quitting: Remote doesn't know how to detach
